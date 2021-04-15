@@ -100,4 +100,18 @@ class UsersController extends Controller
 
     }
 
+    public function isAdmin() {
+        $auth = Auth::user();
+
+        $user = User::where('id', $auth->id)->with('roles')->first();
+
+        if($user->roles[0]->role != 'admin') {
+            return response()->json([
+                'message' => 'You are not authorized'
+            ], 403);
+        }
+
+        return $user;
+    }
+
 }
