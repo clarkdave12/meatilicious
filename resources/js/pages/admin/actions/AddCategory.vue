@@ -38,6 +38,8 @@
                         <v-btn
                         @click="addCategory"
                         block
+                        :disabled="saveButton"
+                        :loading="saveButton"
                         color="success">Save</v-btn>
                 </v-col>
 
@@ -56,6 +58,7 @@ export default {
 
     data() {
         return {
+            saveButton: false,
             category: {
                 category: '',
                 image: '',
@@ -81,6 +84,7 @@ export default {
         },
 
         addCategory() {
+            this.saveButton = true;
             this.$store.dispatch('categories/addCategory', this.category)
                 .then(() => {
                     this.$swal.fire({
@@ -88,6 +92,7 @@ export default {
                         title: 'Success',
                         text: 'Category added successfully.'
                     });
+                    this.saveButton = false;
                     this.$router.push({name: 'categories'});
                 })
                 .catch(error => {
@@ -97,6 +102,7 @@ export default {
                         title: 'Error',
                         text: 'Couldn\'t add the category.'
                     });
+                    this.saveButton = false;
                 })
         }
 

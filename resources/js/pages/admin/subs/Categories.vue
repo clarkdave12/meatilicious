@@ -11,7 +11,6 @@
                 <v-btn @click="navigate('add_category')" outlined color="success">Add Category</v-btn>
                 <v-col cols="12" sm="12">
                     <v-simple-table
-
                     fixed-header
                     height="500px">
 
@@ -26,7 +25,7 @@
                                 <th class="text-start">
                                     Category
                                 </th>
-                                <th class="text-center">
+                                <th class="text-end">
                                     Actions
                                 </th>
                             </tr>
@@ -52,10 +51,10 @@
 
             <v-container v-else>
                 <v-row justify="center">
-                    <v-col cols="3" class="text-center">
+                    <v-col cols="4" class="text-center">
                         <v-img
                         class="mx-auto"
-                        :src="config.baseURL + 'images/defaults/meat.png'"
+                        :src="config.baseURL + '/images/defaults/meat.png'"
                         max-height="150px"
                         max-width="150px"></v-img>
                         <v-toolbar-title class="mb-6"><h3>No Categories yet?</h3></v-toolbar-title>
@@ -135,7 +134,7 @@ export default {
         },
 
         deleteCategory(category) {
-
+            this.loading = true;
             this.$store.dispatch('categories/deleteCategory', category.id)
                 .then(() => {
                     this.$store.dispatch('categories/getCategories')
@@ -145,13 +144,16 @@ export default {
                                 title: 'Deleted',
                                 text: 'The category has been deleted'
                             });
+                            this.loading = false;
                         })
                         .catch(error => {
+                            console.log(error.response);
                             this.$swal.fire({
                                 icon: 'error',
                                 title: 'Ooops...',
                                 text: 'There is a problem while loading the categories.'
                             });
+                            this.loading = false;
                         });
                 })
                 .catch(error => {
@@ -161,6 +163,7 @@ export default {
                         title: 'Error',
                         text: 'Couldn\'t delete the category.'
                     });
+                    this.loading = false;
                 });
 
         }

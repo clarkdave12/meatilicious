@@ -24,11 +24,21 @@
 
             <v-list-item @click="navigate('categories')">
                 <v-list-item-icon>
-                    <v-icon>category</v-icon>
+                    <v-icon>folder</v-icon>
                 </v-list-item-icon>
 
                 <v-list-item-content>
                     <v-list-item-title>Categories</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item @click="navigate('variants')">
+                <v-list-item-icon>
+                    <v-icon>category</v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-content>
+                    <v-list-item-title>Variants</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 

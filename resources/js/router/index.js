@@ -8,9 +8,15 @@ import UserRegister from '../pages/user/UserRegister';
 import AdminLogin from '../pages/admin/AdminLogin';
 import AdminMainPage from '../pages/admin/AdminMain';
 import Dashboard from '../pages/admin/subs/Dashboard';
+
 import Categories from '../pages/admin/subs/Categories';
 import AddCategory from '../pages/admin/actions/AddCategory';
 import UpdateCategory from '../pages/admin/actions/UpdateCategory';
+
+import Variants from '../pages/admin/subs/Variants';
+import AddVariant from '../pages/admin/actions/AddVariant';
+import UpdateVariant from '../pages/admin/actions/UpdateVariant';
+
 import Products from '../pages/admin/subs/Products';
 
 import NotFound from '../components/404';
@@ -53,6 +59,21 @@ const router = new Router({
                     path: 'categories/edit/:categoryId',
                     name: 'update_category',
                     component: UpdateCategory
+                },
+                {
+                    path: 'variants',
+                    name: 'variants',
+                    component: Variants
+                },
+                {
+                    path: 'variants/create',
+                    name: 'add_variant',
+                    component: AddVariant
+                },
+                {
+                    path: 'variants/edit/:variantId',
+                    name: 'update_variant',
+                    component: UpdateVariant
                 },
                 {
                     path: 'products',

@@ -58,7 +58,7 @@ class VariantsController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'variant' => 'required|unique:variants',
+            'variant' => 'required',
             'multiplier' => 'required'
         ]);
 

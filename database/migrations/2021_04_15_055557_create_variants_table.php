@@ -15,7 +15,7 @@ class CreateVariantsTable extends Migration
     {
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
-            $table->string('variant')->unique();
+            $table->string('variant');
             $table->unsignedDecimal('multiplier', 8, 2);
             $table->timestamps();
         });
