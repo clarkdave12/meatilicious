@@ -7,6 +7,13 @@ import UserRegister from '../pages/user/UserRegister';
 
 import AdminLogin from '../pages/admin/AdminLogin';
 import AdminMainPage from '../pages/admin/AdminMain';
+import Dashboard from '../pages/admin/subs/Dashboard';
+import Categories from '../pages/admin/subs/Categories';
+import AddCategory from '../pages/admin/actions/AddCategory';
+import UpdateCategory from '../pages/admin/actions/UpdateCategory';
+import Products from '../pages/admin/subs/Products';
+
+import NotFound from '../components/404';
 
 Vue.use(Router);
 
@@ -25,7 +32,34 @@ const router = new Router({
             path: '/admin',
             name: 'adminMain',
             component: AdminMainPage,
-            meta: { requireAdmin: true }
+            meta: { requireAdmin: true },
+            children: [
+                {
+                    path: 'dashboard',
+                    name: 'dashboard',
+                    component: Dashboard
+                },
+                {
+                    path: 'categories',
+                    name: 'categories',
+                    component: Categories
+                },
+                {
+                    path: 'categories/create',
+                    name: 'add_category',
+                    component: AddCategory
+                },
+                {
+                    path: 'categories/edit/:categoryId',
+                    name: 'update_category',
+                    component: UpdateCategory
+                },
+                {
+                    path: 'products',
+                    name: 'products',
+                    component: Products
+                }
+            ]
         },
 
 
@@ -48,17 +82,20 @@ const router = new Router({
             path: '/register',
             name: 'userRegister',
             component: UserRegister
+        },
+
+
+
+
+
+
+
+
+
+        {
+            path: '*',
+            component: NotFound
         }
-
-
-
-
-
-
-
-
-
-
 
     ]
 });

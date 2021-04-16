@@ -4,7 +4,7 @@
         <v-main>
             <navigation-bar></navigation-bar>
             <v-container fluid>
-                <h1>Admin Page</h1>
+                <router-view></router-view>
             </v-container>
         </v-main>
     </v-container>

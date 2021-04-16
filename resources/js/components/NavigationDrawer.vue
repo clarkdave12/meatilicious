@@ -12,7 +12,7 @@
             </v-list-item>
             <v-divider></v-divider>
 
-            <v-list-item @click="() => {}">
+            <v-list-item @click="navigate('dashboard')">
                 <v-list-item-icon>
                     <v-icon>dashboard</v-icon>
                 </v-list-item-icon>
@@ -22,7 +22,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item @click="() => {}">
+            <v-list-item @click="navigate('categories')">
                 <v-list-item-icon>
                     <v-icon>category</v-icon>
                 </v-list-item-icon>
@@ -32,7 +32,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item @click="() => {}">
+            <v-list-item @click="navigate('products')">
                 <v-list-item-icon>
                     <v-icon>inventory</v-icon>
                 </v-list-item-icon>
@@ -71,6 +71,12 @@ export default {
     computed: {
         drawer() {
             return this.$store.getters['interfaces/getDrawer'];
+        }
+    },
+
+    methods: {
+        navigate(name) {
+            this.$router.push({name: name});
         }
     }
 }
