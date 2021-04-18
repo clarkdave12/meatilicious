@@ -17,7 +17,13 @@ import SubCategories from '../pages/admin/subs/SubCategories';
 import AddSubCategory from '../pages/admin/actions/AddSubCategory';
 import UpdateSubCategory from '../pages/admin/actions/UpdateSubCategory';
 
+import Units from '../pages/admin/subs/Units';
+import AddUnit from '../pages/admin/actions/AddUnit';
+import UpdateUnit from '../pages/admin/actions/UpdateUnit';
+
 import Products from '../pages/admin/subs/Products';
+import AddProduct from '../pages/admin/actions/AddProduct';
+import UpdateProduct from '../pages/admin/actions/UpdateProduct';
 
 import NotFound from '../components/404';
 
@@ -76,9 +82,34 @@ const router = new Router({
                     component: UpdateSubCategory
                 },
                 {
+                    path: 'units',
+                    name: 'units',
+                    component: Units
+                },
+                {
+                    path: 'units/create',
+                    name: 'add_unit',
+                    component: AddUnit
+                },
+                {
+                    path: 'units/edit/:unitId',
+                    name: 'update_unit',
+                    component: UpdateUnit
+                },
+                {
                     path: 'products',
                     name: 'products',
                     component: Products
+                },
+                {
+                    path: 'products/create',
+                    name: 'add_product',
+                    component: AddProduct
+                },
+                {
+                    path: 'products/edit/:productId',
+                    name: 'update_product',
+                    component: UpdateProduct
                 }
             ]
         },

@@ -5,6 +5,8 @@ import interfaces from './modules/interface';
 import users from './modules/users';
 import categories from './modules/categories';
 import subCategories from './modules/subCategories';
+import units from './modules/units';
+import products from './modules/products';
 
 Vue.use(Vuex);
 
@@ -14,7 +16,9 @@ const store = new Vuex.Store({
         interfaces,
         users,
         categories,
-        subCategories
+        subCategories,
+        units,
+        products
     }
 
 });

@@ -42,6 +42,16 @@
                 </v-list-item-content>
             </v-list-item>
 
+            <v-list-item @click="navigate('units')">
+                <v-list-item-icon>
+                    <v-icon>ad_units</v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-content>
+                    <v-list-item-title>Units</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
             <v-list-item @click="navigate('products')">
                 <v-list-item-icon>
                     <v-icon>inventory</v-icon>

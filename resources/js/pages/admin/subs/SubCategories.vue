@@ -6,8 +6,8 @@
         </v-layout>
 
         <v-container v-else>
-            <v-row v-if="true">
-                <v-subheader>Sub Category count: 0</v-subheader>
+            <v-row v-if="subCategories.length > 0">
+                <v-subheader>Sub Category count: {{ subCategories.length }} </v-subheader>
                 <v-spacer></v-spacer>
                 <v-btn
                 @click="navigate('add_sub_category')"
@@ -39,7 +39,7 @@
                                 <td> {{ subCategory.name }} </td>
                                 <td>{{ subCategory.category.name }}</td>
                                 <td>
-                                    <v-btn @click="() => {}" text color="error" class="float-right"><v-icon>delete</v-icon></v-btn>
+                                    <v-btn @click="confirmDelete(subCategory)" text color="error" class="float-right"><v-icon>delete</v-icon></v-btn>
                                     <v-btn
                                     @click="navigateParams('update_sub_category', subCategory.id)"
                                     text
@@ -58,7 +58,7 @@
                     <v-col cols="12" sm="12" md="4" class="text-center">
                         <v-img
                         class="mx-auto"
-                        src="http://localhost:8000/images/defaults/meat.png"
+                        :src="config.baseURL + '/images/defaults/meat.png'"
                         max-height="150px"
                         max-width="150px"></v-img>
                         <v-toolbar-title class="mb-6"><h3>No Sub Category yet?</h3></v-toolbar-title>
@@ -77,6 +77,7 @@
 <script>
 
 import Loader from '../../../components/Loader';
+import { config } from '../../../config';
 
 export default {
 
@@ -87,6 +88,7 @@ export default {
     data() {
         return {
             loading: false,
+            config: config
         }
     },
 
@@ -103,6 +105,56 @@ export default {
 
         navigateParams(name, params) {
             this.$router.push({name: name, params: { subCategoryId: params }});
+        },
+
+        confirmDelete(subCategory) {
+            this.$swal.fire({
+                icon: 'warning',
+                title: 'Are you sure to delete ?',
+                text: 'You won\'t be able to revert this action',
+                showCancelButton: true,
+                cancelButtonColor: '#DC143C',
+                confirmButtonText: 'Yes, Delete it!'
+            })
+            .then(result => {
+                if(result.isConfirmed) {
+                    this.deleteSubCategory(subCategory);
+                }
+            });
+        },
+
+        deleteSubCategory(subCategory) {
+            this.loading = true;
+            this.$store.dispatch('subCategories/deleteSubCategory', subCategory.id)
+                .then(() => {
+                    this.$store.dispatch('subCategories/getSubCategories')
+                        .then(() => {
+                            this.loading = false;
+                            this.$swal.fire({
+                                icon: 'success',
+                                title: 'Deleted',
+                                text: 'The sub category was deleted'
+                            });
+                        })
+                        .catch(error => {
+                            console.log(error.response);
+                            this.$swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'There was a problem while fetching the sub categories'
+                            });
+                            this.loading = false;
+                        })
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'There was a problem while deleting the sub category'
+                    });
+                    this.loading = false;
+                });
         }
     },
 

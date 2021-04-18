@@ -2,53 +2,33 @@ import axios from "axios";
 
 export default {
     namespaced: true,
-
     state: {
-        subCategories: [],
-        subCategory: {}
+        units: [],
+        unit: {}
     },
     getters: {
-        getSubCategories: state => state.subCategories,
+        getUnits: state => state.units,
 
-        getSubCategory: state => state.subCategory
+        getUnit: state => state.unit,
     },
     mutations: {
-        setSubCategories: (state, subCategories) => state.subCategories = subCategories,
+        setUnits: (state, units) => state.units = units,
 
-        setSubCategory: (state, subCategory) => state.subCategory = subCategory
+        setUnit: (state, unit) => state.unit = unit
     },
     actions: {
 
-        getSubCategories({commit}) {
+        getUnits({commit}) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'GET',
-                    url: '/api/subcategories',
+                    url: '/api/units',
                     headers: {
                         Accept: 'application/json'
                     }
                 })
                 .then(response => {
-                    commit('setSubCategories', response.data.sub_categories);
-                    resolve(response);
-                })
-                .catch(error => {
-                    reject(error);
-                });
-            });
-        },
-
-        getSubCategory({commit}, id) {
-            return new Promise((resolve, reject) => {
-                axios({
-                    method: 'GET',
-                    url: '/api/subcategories/' + id,
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                })
-                .then(response => {
-                    commit('setSubCategory', response.data.sub_category);
+                    commit('setUnits', response.data.units);
                     resolve(response);
                 })
                 .catch(error => {
@@ -57,17 +37,17 @@ export default {
             });
         },
 
-        getSubCategoriesByCategoryId({commit}, id) {
+        getUnit({commit}, id) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'GET',
-                    url: '/api/subcategories/getByCategoryId/' + id,
+                    url: '/api/units/' + id,
                     headers: {
                         Accept: 'application/json'
                     }
                 })
                 .then(response => {
-                    commit('setSubCategories', response.data.sub_categories);
+                    commit('setUnit', response.data.unit);
                     resolve(response);
                 })
                 .catch(error => {
@@ -76,11 +56,11 @@ export default {
             });
         },
 
-        addSubCategory({}, payload) {
+        addUnit({}, payload) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'POST',
-                    url: '/api/subcategories',
+                    url: '/api/units',
                     data: payload,
                     headers: {
                         Accept: 'application/json'
@@ -91,15 +71,15 @@ export default {
                 })
                 .catch(error => {
                     reject(error);
-                });
+                })
             });
         },
 
-        updateSubCategory({}, payload) {
+        updateUnit({}, payload) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'PUT',
-                    url: '/api/subcategories/' + payload.id,
+                    url: '/api/units/' + payload.id,
                     data: payload.data,
                     headers: {
                         Accept: 'application/json'
@@ -110,15 +90,15 @@ export default {
                 })
                 .catch(error => {
                     reject(error);
-                });
+                })
             });
         },
 
-        deleteSubCategory({}, payload) {
+        deleteUnit({}, payload) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'DELETE',
-                    url: '/api/subcategories/' + payload,
+                    url: '/api/units/' + payload,
                     headers: {
                         Accept: 'application/json'
                     }
@@ -133,5 +113,4 @@ export default {
         }
 
     }
-
 }

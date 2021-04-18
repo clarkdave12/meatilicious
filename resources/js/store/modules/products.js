@@ -2,34 +2,34 @@ import axios from "axios";
 
 export default {
     namespaced: true,
-
     state: {
-        subCategories: [],
-        subCategory: {}
+        products: [],
+        product: {}
     },
     getters: {
-        getSubCategories: state => state.subCategories,
+        getProducts: state => state.products,
 
-        getSubCategory: state => state.subCategory
+        getProduct: state => state.product
     },
     mutations: {
-        setSubCategories: (state, subCategories) => state.subCategories = subCategories,
+        setProducts: (state, products) => state.products = products,
 
-        setSubCategory: (state, subCategory) => state.subCategory = subCategory
+        setProduct: (state, product) => state.product = product
     },
     actions: {
 
-        getSubCategories({commit}) {
+        getProducts({commit}) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'GET',
-                    url: '/api/subcategories',
+                    url: '/api/products',
                     headers: {
                         Accept: 'application/json'
                     }
                 })
                 .then(response => {
-                    commit('setSubCategories', response.data.sub_categories);
+                    commit('setProducts', response.data.products);
+                    console.log(response.data.products);
                     resolve(response);
                 })
                 .catch(error => {
@@ -38,49 +38,87 @@ export default {
             });
         },
 
-        getSubCategory({commit}, id) {
+        getProduct({commit}, payload) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'GET',
-                    url: '/api/subcategories/' + id,
+                    url: '/api/products/' + payload,
                     headers: {
                         Accept: 'application/json'
                     }
                 })
                 .then(response => {
-                    commit('setSubCategory', response.data.sub_category);
+                    commit('setProduct', response.data.product);
+                    console.log(response.data.product);
                     resolve(response);
                 })
                 .catch(error => {
                     reject(error);
-                })
+                });
             });
         },
 
-        getSubCategoriesByCategoryId({commit}, id) {
-            return new Promise((resolve, reject) => {
-                axios({
-                    method: 'GET',
-                    url: '/api/subcategories/getByCategoryId/' + id,
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                })
-                .then(response => {
-                    commit('setSubCategories', response.data.sub_categories);
-                    resolve(response);
-                })
-                .catch(error => {
-                    reject(error);
-                })
-            });
-        },
-
-        addSubCategory({}, payload) {
+        addProduct({}, payload) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'POST',
-                    url: '/api/subcategories',
+                    url: '/api/products',
+                    data: payload,
+                    headers: {
+                        Accept: 'application/json'
+                    }
+                })
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+            });
+        },
+
+        updateProduct({}, payload) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    method: 'PUT',
+                    url: '/api/products/' + payload.id,
+                    data: payload.data,
+                    headers: {
+                        Accept: 'application/json'
+                    }
+                })
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+            });
+        },
+
+        deleteProduct({}, payload) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    method: 'DELETE',
+                    url: '/api/products/' + payload,
+                    headers: {
+                        Accept: 'application/json'
+                    }
+                })
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+            });
+        },
+
+        removeImage({}, payload) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    method: 'DELETE',
+                    url: '/api/remove_image',
                     data: payload,
                     headers: {
                         Accept: 'application/json'
@@ -93,45 +131,7 @@ export default {
                     reject(error);
                 });
             });
-        },
-
-        updateSubCategory({}, payload) {
-            return new Promise((resolve, reject) => {
-                axios({
-                    method: 'PUT',
-                    url: '/api/subcategories/' + payload.id,
-                    data: payload.data,
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                })
-                .then(response => {
-                    resolve(response);
-                })
-                .catch(error => {
-                    reject(error);
-                });
-            });
-        },
-
-        deleteSubCategory({}, payload) {
-            return new Promise((resolve, reject) => {
-                axios({
-                    method: 'DELETE',
-                    url: '/api/subcategories/' + payload,
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                })
-                .then(response => {
-                    resolve(response);
-                })
-                .catch(error => {
-                    reject(error);
-                })
-            });
         }
 
     }
-
 }

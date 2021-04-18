@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductGalleriesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SubCategoriesController;
+use App\Http\Controllers\UnitsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VariantsController;
 use App\Models\SubCategory;
@@ -36,7 +38,13 @@ Route::resource('categories', CategoriesController::class)->only([
 ]);
 
 // SubCategoriesController
+Route::get('/subcategories/getByCategoryId/{id}', [SubCategoriesController::class, 'getSubCategoryByCategoryId']);
 Route::resource('subcategories', SubCategoriesController::class)->only([
+    'index', 'store', 'show', 'update', 'destroy'
+]);
+
+// UnitsController
+Route::resource('units', UnitsController::class)->only([
     'index', 'store', 'show', 'update', 'destroy'
 ]);
 
@@ -44,3 +52,6 @@ Route::resource('subcategories', SubCategoriesController::class)->only([
 Route::resource('products', ProductsController::class)->only([
     'index', 'store', 'show', 'update', 'destroy'
 ]);
+
+// ProductGalleriesController
+Route::delete('/remove_image', [ProductGalleriesController::class, 'removeImage']);

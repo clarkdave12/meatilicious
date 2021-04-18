@@ -10,4 +10,12 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function prices() {
+        return $this->hasMany(Price::class);
+    }
+
+    public function images() {
+        return $this->hasMany(ProductGallery::class);
+    }
 }

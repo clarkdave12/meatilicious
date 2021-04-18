@@ -125,31 +125,18 @@ class SubCategoriesController extends Controller
     }
 
     // Custom class
-    public function decodeImage($image, $url) {
+    public function getSubCategoryByCategoryId($id) {
+        $subCategory = SubCategory::where('category_id', $id)->get();
+        if(!$subCategory) {
+            return response()->json([
+                'message' => 'No sub category for this category',
+                'sub_categories' => $subCategory
+            ]);
+        }
 
-        $exploded = explode(',', $image);
-
-            $decoded = base64_decode($exploded[1]);
-
-            if(str_contains($exploded[0], 'jpeg') || str_contains($exploded[0], 'jpg'))
-                $extension = 'jpg';
-            else if(str_contains($exploded[0], 'png'))
-                $extension = 'png';
-            else
-                return response()->json([
-                    'errors' => [
-                        'image' => ['Invalid image file please use JPEG or PNG images only']
-                    ]
-                ], 422);
-
-            $fileName = Str::random(15) . '.' . $extension;
-
-            $path = public_path() . '/images/categories' . '/' . $fileName;
-
-            file_put_contents($path, $decoded);
-
-            $image_url = $url . '/images/categories' . '/' . $fileName;
-
-            return $image_url;
+        return response()->json([
+            'message' => 'Success',
+            'sub_categories' => $subCategory
+        ], 200);
     }
 }
