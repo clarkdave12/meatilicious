@@ -9,7 +9,7 @@
                 <v-toolbar-title class="text-center mb-9">Update Category</v-toolbar-title>
 
                 <v-text-field
-                v-model="category.category"
+                v-model="category.name"
                 class="mb-4"
                 outlined
                 dense
@@ -56,7 +56,7 @@ export default {
     data() {
         return {
             category: {
-                category: '',
+                name: '',
                 image: '',
                 base_url: ''
             }
@@ -105,7 +105,8 @@ export default {
         this.$store.dispatch('categories/getCategory', this.$route.params.categoryId)
             .then(() => {
                 let cat = this.$store.getters['categories/getCategory'];
-                this.category.category = cat.category;
+                console.log(cat);
+                this.category.name = cat.name;
             })
             .catch(error => {
                 console.log(error.response);

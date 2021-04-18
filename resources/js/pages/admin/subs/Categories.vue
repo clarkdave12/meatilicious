@@ -37,7 +37,7 @@
                                 <td>
                                     <v-img :src="category.image_url" max-height="100px" max-width="100px"></v-img>
                                 </td>
-                                <td> {{ category.category }} </td>
+                                <td> {{ category.name }} </td>
                                 <td>
                                     <v-btn @click="confirmDelete(category)" text color="error" class="float-right"><v-icon>delete</v-icon></v-btn>
                                     <v-btn @click="update(category)" text color="primary" class="float-right"><v-icon>edit</v-icon></v-btn>

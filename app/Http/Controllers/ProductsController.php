@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Price;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -11,48 +11,54 @@ class ProductsController extends Controller
 
     public function index()
     {
-        $products = Product::orderBy('product_name', 'asc')->with('category')->get();
+        $products = Product::all();
 
         return response()->json([
-            'message' => 'success',
+            'message' => 'Success',
             'products' => $products
         ], 200);
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'product_name' => 'required',
-            'price' => 'required',
-            'with_variant' => '',
-            'images' => '',
-            'category_id' => 'required'
+
+        $data = $request->validate([
+            'name' => 'required|unique:products',
+            'sub_category_id' => 'required',
+            'prices' => ''
         ]);
 
-        if(!($validated['with_variant'] == 0 || $validated['with_variant'] == 1)) {
+        $product = Product::create([
+            'name' => $data['name'],
+            'sub_category_id' => $data['sub_category_id']
+        ]);
+
+        if(!$product) {
             return response()->json([
-                'message' => 'Invalid with_variant format',
-                'hint' => 'Only accepts Integer of value 1 or 0'
-            ], 422);
+                'Message' => 'There is problem addding the product'
+            ], 500);
         }
 
-        $category = Category::where('id', $validated['category_id'])->first();
-
-        if(!$category) {
-            return response()->json([
-                'message' => 'Invalid category_id'
-            ], 422);
+        if($request->prices) {
+            foreach($data['prices'] as $price) {
+                Price::create([
+                    'product_id' => $product->id,
+                    'price' => $price['price'],
+                    'per' => $price['per'],
+                    'unit' => $price['unit']
+                ]);
+            }
         }
 
-
-        $product = Product::create($validated);
+        $prices = Price::where('product_id', $product->id)->get();
+        $product->prices = $prices;
 
         return response()->json([
-            'message' => 'Product created!',
+            'message' => 'Success',
             'product' => $product
         ], 201);
-    }
 
+    }
 
     public function show($id)
     {
@@ -60,44 +66,43 @@ class ProductsController extends Controller
 
         if(!$product) {
             return response()->json([
-                'message' => 'Product not found'
+                'message' => 'No such product'
             ], 404);
         }
 
         return response()->json([
-            'message' => 'success',
+            'message' =>'Success',
             'product' => $product
         ], 200);
     }
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'product_name' => 'required',
-            'price' => 'required',
-            'with_variant' => '',
-            'category_id' => 'required'
+        $data = $request->validate([
+            'name' => 'required|unique:products',
+            'sub_category_id' => 'required',
+            'prices' => 'required'
         ]);
 
-        $category = Category::where('id', $validated['category_id'])->first();
-
-        if(!$category) {
-            return response()->json([
-                'message' => 'Invalid category_id'
-            ], 422);
-        }
-
-
         $product = Product::where('id', $id)->first();
-
-        $product->product_name = $validated['product_name'];
-        $product->price = $validated['price'];
-        $product->with_variant = $validated['with_variant'];
-        $product->category_id = $validated['category_id'];
+        $product->name = $data['name'];
+        $product->sub_category_id = $data['sub_category_id'];
         $product->save();
 
+        foreach($data['prices'] as $pr) {
+            $price = Price::where('id', $pr)->first();
+            if($price->product_id = $id) {
+                $price->price = $pr['price'];
+                $price->per = $pr['per'];
+                $price->unit = $pr['unit'];
+                $price->save();
+            }
+        }
+
+        $product->prices = Price::where('id', $product->id)->get();
+
         return response()->json([
-            'message' => 'Product updated!',
+            'message' => 'Success',
             'product' => $product
         ], 200);
     }
@@ -106,14 +111,15 @@ class ProductsController extends Controller
     {
         $product = Product::where('id', $id)->delete();
 
-        if($product) {
+        if(!$product) {
             return response()->json([
-                'message' => 'Product deleted!'
-            ], 200);
+                'message' => 'There was a problem while deleting the product'
+            ], 500);
         }
 
         return response()->json([
-            'message' => 'Could not delete the product'
-        ], 500);
+            'message' => 'Success'
+        ], 200);
     }
+
 }

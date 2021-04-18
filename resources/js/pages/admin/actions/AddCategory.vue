@@ -9,7 +9,7 @@
                 <v-toolbar-title class="text-center mb-9">Add Category</v-toolbar-title>
 
                 <v-text-field
-                v-model="category.category"
+                v-model="category.name"
                 class="mb-4"
                 outlined
                 dense
@@ -60,7 +60,7 @@ export default {
         return {
             saveButton: false,
             category: {
-                category: '',
+                name: '',
                 image: '',
                 base_url: ''
             }

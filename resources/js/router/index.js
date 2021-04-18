@@ -13,9 +13,9 @@ import Categories from '../pages/admin/subs/Categories';
 import AddCategory from '../pages/admin/actions/AddCategory';
 import UpdateCategory from '../pages/admin/actions/UpdateCategory';
 
-import Variants from '../pages/admin/subs/Variants';
-import AddVariant from '../pages/admin/actions/AddVariant';
-import UpdateVariant from '../pages/admin/actions/UpdateVariant';
+import SubCategories from '../pages/admin/subs/SubCategories';
+import AddSubCategory from '../pages/admin/actions/AddSubCategory';
+import UpdateSubCategory from '../pages/admin/actions/UpdateSubCategory';
 
 import Products from '../pages/admin/subs/Products';
 
@@ -61,19 +61,19 @@ const router = new Router({
                     component: UpdateCategory
                 },
                 {
-                    path: 'variants',
-                    name: 'variants',
-                    component: Variants
+                    path: 'sub_categories',
+                    name: 'sub_categories',
+                    component: SubCategories
                 },
                 {
-                    path: 'variants/create',
-                    name: 'add_variant',
-                    component: AddVariant
+                    path: 'sub_categories/create',
+                    name: 'add_sub_category',
+                    component: AddSubCategory
                 },
                 {
-                    path: 'variants/edit/:variantId',
-                    name: 'update_variant',
-                    component: UpdateVariant
+                    path: 'sub_categories/edit/:subCategoryId',
+                    name: 'update_sub_category',
+                    component: UpdateSubCategory
                 },
                 {
                     path: 'products',

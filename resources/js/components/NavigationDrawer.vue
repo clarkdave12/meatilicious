@@ -7,7 +7,7 @@
         <v-list>
             <v-list-item>
                 <v-list-item-content class="">
-                    <v-img src="https://cdn.shopify.com/s/files/1/0430/2330/2822/files/MGM_logo_no_bg_300x.png?v=1595995883"></v-img>
+                    <v-img src="http://localhost:8000/images/defaults/logo.png"></v-img>
                 </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
@@ -32,13 +32,13 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item @click="navigate('variants')">
+            <v-list-item @click="navigate('sub_categories')">
                 <v-list-item-icon>
                     <v-icon>category</v-icon>
                 </v-list-item-icon>
 
                 <v-list-item-content>
-                    <v-list-item-title>Variants</v-list-item-title>
+                    <v-list-item-title>Sub Categories</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 

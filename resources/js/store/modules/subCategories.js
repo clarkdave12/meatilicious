@@ -1,38 +1,54 @@
 import axios from "axios";
 
 export default {
-
     namespaced: true,
 
     state: {
-        variants: [],
-        variant: {},
+        subCategories: [],
+        subCategory: {}
     },
-
     getters: {
-        getVariants: state => state.variants,
+        getSubCategories: state => state.subCategories,
 
-        getVariant: state => state.variant,
+        getSubCategory: state => state.subCategory
     },
-
     mutations: {
-        setVariants: (state, variants) => state.variants = variants,
+        setSubCategories: (state, subCategories) => state.subCategories = subCategories,
 
-        setVariant: (state, variant) => state.variant = variant,
+        setSubCategory: (state, subCategory) => state.subCategory = subCategory
     },
-
     actions: {
-        getVariants({commit}) {
+
+        getSubCategories({commit}) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'GET',
-                    url: '/api/variants',
+                    url: '/api/subcategories',
                     headers: {
                         Accept: 'application/json'
                     }
                 })
                 .then(response => {
-                    commit('setVariants', response.data.variants);
+                    commit('setSubCategories', response.data.sub_categories);
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+            });
+        },
+
+        getSubCategory({commit}, id) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    method: 'GET',
+                    url: '/api/subcategories/' + id,
+                    headers: {
+                        Accept: 'application/json'
+                    }
+                })
+                .then(response => {
+                    commit('setSubCategory', response.data.sub_category);
                     resolve(response);
                 })
                 .catch(error => {
@@ -41,30 +57,11 @@ export default {
             });
         },
 
-        getVariant({commit}, payload) {
-            return new Promise((resolve, reject) => {
-                axios({
-                    method: 'GET',
-                    url: '/api/variants/' + payload,
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                })
-                .then(response => {
-                    commit('setVariant', response.data.variant);
-                    resolve(response);
-                })
-                .catch(error => {
-                    reject(error);
-                })
-            });
-        },
-
-        addVariant({}, payload) {
+        addSubCategory({}, payload) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'POST',
-                    url: '/api/variants',
+                    url: '/api/subcategories',
                     data: payload,
                     headers: {
                         Accept: 'application/json'
@@ -75,34 +72,16 @@ export default {
                 })
                 .catch(error => {
                     reject(error);
-                })
+                });
             });
         },
 
-        updateVariant({}, payload) {
+        updateSubCategory({}, payload) {
             return new Promise((resolve, reject) => {
                 axios({
                     method: 'PUT',
-                    url: '/api/variants/' + payload.id,
+                    url: '/api/subcategories/' + payload.id,
                     data: payload.data,
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                })
-                .then(response => {
-                    resolve(response);
-                })
-                .catch(error => {
-                    reject(error);
-                })
-            });
-        },
-
-        deleteVariant({}, payload) {
-            return new Promise((resolve, reject) => {
-                axios({
-                    method: 'DELETE',
-                    url: '/api/variants/' + payload,
                     headers: {
                         Accept: 'application/json'
                     }
@@ -115,6 +94,7 @@ export default {
                 });
             });
         }
+
     }
 
 }

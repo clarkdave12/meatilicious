@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\SubCategoriesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VariantsController;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,17 +31,16 @@ Route::post('/login', [UsersController::class, 'login']);
 Route::post('/admin/login', [UsersController::class, 'adminLogin']);
 
 // CategoriesController
-Route::get('/categories/products/{id}', [CategoriesController::class, 'getProducts']);
 Route::resource('categories', CategoriesController::class)->only([
+    'index', 'store', 'show', 'update', 'destroy'
+]);
+
+// SubCategoriesController
+Route::resource('subcategories', SubCategoriesController::class)->only([
     'index', 'store', 'show', 'update', 'destroy'
 ]);
 
 // ProductsController
 Route::resource('products', ProductsController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
-
-// VariantsController
-Route::resource('variants', VariantsController::class)->only([
     'index', 'store', 'show', 'update', 'destroy'
 ]);
